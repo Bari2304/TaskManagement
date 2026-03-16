@@ -7,10 +7,12 @@ import com.taskmanagement.taskmanagement.Entity.UserProfileUpdate;
 import com.taskmanagement.taskmanagement.Repository.UserAuthRepo;
 import com.taskmanagement.taskmanagement.Repository.UserProfileUpdateRepo;
 import com.taskmanagement.taskmanagement.Security.JWTToken;
+import com.taskmanagement.taskmanagement.Security.JwtAuthFilter;
 import com.taskmanagement.taskmanagement.Security.TokenBlockListService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -131,6 +133,12 @@ public class UserAuthService {
         if(token==null){
             tokenBlockListService.blockedToken(token);
         }
+        try{
+            SecurityContextHolder.clearContext();
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }
+
 
         return "Logged out";
     }
