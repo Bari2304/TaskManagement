@@ -31,7 +31,7 @@ public class UserAuthController {
         return  ResponseEntity.ok(userAuthService.loginUser(loginRequestDTO));
     }
 
-    @PostMapping("/logOut")
+    @PostMapping("/logout")
     public ResponseEntity<String> logoutUser(HttpServletRequest request) {
         return ResponseEntity.ok(userAuthService.loggedOut(request));
     }

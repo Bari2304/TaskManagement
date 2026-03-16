@@ -3,6 +3,7 @@ package com.taskmanagement.taskmanagement.Service;
 import com.taskmanagement.taskmanagement.DTO.UserProfileUpdateDTO;
 import com.taskmanagement.taskmanagement.Entity.UserProfileUpdate;
 import com.taskmanagement.taskmanagement.Repository.UserProfileUpdateRepo;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,9 @@ public class UserProfileUpdateService {
 
     @Autowired
     private UserProfileUpdateRepo userProfileUpdateRepo;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     public UserProfileUpdate updateUserProfile(UserProfileUpdateDTO dto) {
 
@@ -30,7 +34,7 @@ public class UserProfileUpdateService {
     }
 
     public List<UserProfileUpdateDTO> getAllProfiles(){
-        return userProfileUpdateRepo.findAll().stream().map(this::toDTO).toList();
+        return userProfileUpdateRepo.findAll().stream().map((profile)->modelMapper.map(profile,UserProfileUpdateDTO.class)).toList();
     }
 
     public UserProfileUpdateDTO getProfileByUserOfficialEmail(String userOfficialEmail){
